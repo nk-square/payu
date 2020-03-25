@@ -1,0 +1,65 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Nksquare\Payu\PayuPayment;
+
+class CreatePayuPaymentsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('payu_payments', function (Blueprint $table) {
+            $table->string('txnid',50)->primary();
+            $table->string('key');
+            $table->unsignedInteger('payable_id')->nullable();
+            $table->string('payable_type')->nullable();
+            $table->string('mihpayid')->nullable();
+            $table->string('firstname');
+            $table->string('lastname')->nullable();
+            $table->string('email');
+            $table->string('phone');
+            $table->decimal('amount',12,2);
+            $table->decimal('discount',12,2)->default(0);
+            $table->decimal('net_amount_debit',12,2)->default(0);
+            $table->string('status')->nullable()->default(PayuPayment::PENDING);
+            $table->string('unmappedstatus')->nullable();
+            $table->string('mode')->nullable();
+            $table->string('bank_ref_num')->nullable();
+            $table->string('bankcode')->nullable();
+            $table->string('cardnum')->nullable();
+            $table->string('name_on_card')->nullable();
+            $table->string('issuing_bank')->nullable();
+            $table->string('card_type')->nullable();
+            $table->string('productinfo')->nullable();
+            $table->decimal('additional_charges',12,2)->nullable();
+            $table->string('error',50)->nullable();
+            $table->string('udf1')->nullable();
+            $table->string('udf2')->nullable();
+            $table->string('udf3')->nullable();
+            $table->string('udf4')->nullable();
+            $table->string('udf5')->nullable();
+            $table->string('udf6')->nullable();
+            $table->string('udf7')->nullable();
+            $table->string('udf8')->nullable();
+            $table->string('udf9')->nullable();
+            $table->string('udf10')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('payu_payments');
+    }
+}
