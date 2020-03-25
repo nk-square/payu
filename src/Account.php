@@ -2,6 +2,8 @@
 
 namespace Nksquare\Payu;
 
+use InvalidArgumentException;
+
 class Account
 {
     /**
@@ -42,6 +44,21 @@ class Account
      */
     function __construct($key,$salt,$type,$authHeader=null)
     {
+        if(empty($key))
+        {
+            throw new InvalidArgumentException('Invalid key');
+        }
+
+        if(empty($salt))
+        {
+            throw new InvalidArgumentException('Invalid salt');
+        }
+
+        if(!in_array($type,[self::PAYU_MONEY,self::PAYU_BIZ]))
+        {
+            throw new InvalidArgumentException('Invalid account type');
+        }
+
         $this->key = $key;
         $this->salt = $salt;
         $this->type = $type;
