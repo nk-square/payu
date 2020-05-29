@@ -38,6 +38,11 @@ class Gateway
     protected $verifier;
 
     /**
+     * @var Nksquare\Payu\TxnidGenerator
+     */
+    protected $txnidGenerator;
+
+    /**
      * @param Nksquare\Payu\Account $account
      */
     function __construct($account)
@@ -45,6 +50,7 @@ class Gateway
         $this->account = $account;
         $this->verifier = new Verifier($this->account);
         $this->endpoint = Config::get('payu.testing') ? 'https://sandboxsecure.payu.in/_payment' : 'https://secure.payu.in/_payment';
+        $this->txnidGenerator = new TxnidGenerator();
     }
 
     /**
@@ -62,6 +68,7 @@ class Gateway
     public function setPayment($payment)
     {
         $this->payment = array_merge($payment,['key'=>$this->account->getKey()]);
+        $this->payment['txnid'] = $this->payment['txnid'] ?? $this->txnidGenerator->generate();
         return $this;
     }
 
