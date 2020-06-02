@@ -1,0 +1,27 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+use Faker\Generator as Faker;
+use Nksquare\Payu\PayuPayment;
+use Nksquare\Payu\TxnidGenerator;
+
+$factory->define(PayuPayment::class, function(Faker $faker){
+    $amount = rand(10000,100000);
+    return [
+        'txnid' => app(TxnidGenerator::class)->generate(),
+        'amount' => $amount,
+        'email' => $faker->email,
+        'phone' => $faker->numerify('##########'),
+        'firstname' => $faker->firstName,
+        'mihpayid' => $faker->numerify('##############'),
+        'net_amount_debit' => $amount,
+        'status' => $faker->randomElement(['success','failure','pending']),
+        'unmappedstatus' => null,
+        'mode' => $faker->randomElement(['CC','NB','DB']),
+        'bank_ref_num' => $faker->numerify('##########'),
+        'bankcode' => $faker->randomElement(['VISA','MAST']),
+        'cardnum' => $faker->numerify('############'),
+        'issuing_bank' => $faker->randomElement(['AXIS','SBI']),
+        'card_type' => $faker->randomElement(['CC','DD']),
+    ];
+});

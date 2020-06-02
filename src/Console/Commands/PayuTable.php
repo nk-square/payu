@@ -62,6 +62,12 @@ class PayuTable extends Command
 
         $this->info('Migration created successfully!');
 
+        $factoryPath = $this->laravel->databasePath().'/factories/PayuFactory.php';
+
+        $this->files->put($factoryPath, $this->files->get(__DIR__.'/stubs/PayuFactory.stub'));
+
+        $this->info('Factory created successfully!');
+
         $this->composer->dumpAutoloads();
     }
 
