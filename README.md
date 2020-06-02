@@ -6,17 +6,23 @@ Run composer
 ```
 composer require thungdemo\payu
 ```
-Public config file
+Publish config file
 ```
 php artisan vendor:publish --provider="Nksquare\Payu\PayuServiceProvider" --tag="config"
 ```
-Create migrations
+Create migrations and model factory if you are going to store the payment records in the database
 ```
 php artisan payu:table
 ```
 Run migrations
 ```
 php artisan migrate
+```
+Generate fake data using the following code
+```php
+use Nksquare\Payu\PayuPayment;
+.....
+factory(PayuPayment::class)->make();
 ```
 Set up your key, salt, account type(money or biz) and auth header(required for money)
 ```
@@ -68,7 +74,6 @@ class PaymentController extends Controller
     {
         $gateway = Payu::getGateway()->setSurl(url('payment/success'))->setFurl(url('payment/failure'));
         $gateway->setPayment([
-            'txnid' => mt_rand(),
             'amount' => 1,
             'email' => 'buyer@email.com',
             'phone' => '1234567890',
