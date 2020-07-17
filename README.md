@@ -2,7 +2,18 @@
 A simple Laravel library for Payu India Payment Gateway
 
 ## Installation
-Run composer 
+Add the following lines to your composer.json
+```
+....
+"repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/nk-square/payu.git"
+    }
+],
+.....
+```
+Run composer
 ```
 composer require thungdemo\payu
 ```
