@@ -15,7 +15,7 @@ Add the following lines to your composer.json
 ```
 Run composer
 ```
-composer require nksquare\payu
+composer require nksquare/payu
 ```
 Publish config file
 ```
