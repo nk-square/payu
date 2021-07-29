@@ -100,6 +100,7 @@ class PayuPayment extends Model
         $this->bankcode = $payment['bankcode'];
         $this->productinfo = $payment['productinfo'];
         $this->additional_charges = $payment['additionalCharges'] ?? null;
+        $this->additional_charges = $payment['additional_charges'] ?? null;
         $this->net_amount_debit = $payment['net_amount_debit'] ?? 0;
         $this->bank_ref_num = $payment['bank_ref_num'] ?? null;
         $this->cardnum = $payment['cardnum'] ?? null;
