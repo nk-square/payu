@@ -33,8 +33,8 @@ class Verifier
      */
     public function generateHash(array $data)
     {
-        $hashString = $this->account->getKey().'|'.$data['txnid'].'|'.$data['amount'].'|'.$data['productinfo'].'|'.
-                $data['firstname'].'|'.$data['email'].'|'.($data['udf1'] ?? null).'|'.($data['udf2'] ?? null).'|'.
+        $hashString = $this->account->getKey().'|'.($data['txnid'] ?? $data['merchantTransactionId']).'|'.$data['amount'].'|'.($data['productinfo'] ?? $data['productInfo']).'|'.
+                ($data['firstname'] ?? $data['customerName']).'|'.($data['email'] ?? $data['customerEmail']).'|'.($data['udf1'] ?? null).'|'.($data['udf2'] ?? null).'|'.
                 ($data['udf3'] ?? null).'|'.($data['udf4'] ?? null).'|'.($data['udf5'] ?? null).'|'.
                 ($data['udf6'] ?? null).'|'.($data['udf7'] ?? null).'|'.($data['udf8'] ?? null).'|'.
                 ($data['udf9'] ?? null).'|'.($data['udf10'] ?? null).'|'.$this->account->getSalt();
@@ -49,12 +49,12 @@ class Verifier
     function generateReverseHash(array $data)
     {
         $hashString = $this->account->getSalt().'|'.$data['status'].'||||||'.$data['udf5'].'|'.$data['udf4'].'|'.
-            $data['udf3'].'|'.$data['udf2'].'|'.$data['udf1'].'|'.$data['email'].'|'.$data['firstname'].'|'.
-            $data['productinfo'].'|'.$data['amount'].'|'.$data['txnid'].'|'.$this->account->getKey();
+            $data['udf3'].'|'.$data['udf2'].'|'.$data['udf1'].'|'.($data['email'] ?? $data['customerEmail']).'|'.($data['firstname'] ?? $data['customerName']).'|'.
+            ($data['productinfo'] ?? $data['productInfo']).'|'.$data['amount'].'|'.($data['txnid'] ?? $data['merchantTransactionId']).'|'.$this->account->getKey();
 
-        if(isset($data['additionalCharges']))
+        if(isset($data['additionalCharges']) || isset($data['additional_charges']))
         {
-            $hashString = $data['additionalCharges'].'|'.$hashString;
+            $hashString = ($data['additionalCharges'] ?? $data['additional_charges']).'|'.$hashString;
         }
         
         return hash('sha512',$hashString);
