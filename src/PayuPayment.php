@@ -76,7 +76,7 @@ class PayuPayment extends Model
             $payuPayment->updateCompletedPayment($payment);
             return $payuPayment;
         }
-        throw new Exception("Unidentified payload ");
+        throw new Exception("Unidentified payload");
     } 
 
     /**
