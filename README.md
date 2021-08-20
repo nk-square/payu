@@ -24,6 +24,7 @@ php artisan vendor:publish --provider="Nksquare\Payu\PayuServiceProvider" --tag=
 Create migrations and model factory if you are going to store the payment records in the database
 ```
 php artisan payu:table
+php artisan payu:update
 ```
 Run migrations
 ```
@@ -128,5 +129,16 @@ class PaymentController extends Controller
             exit(0);
         }
     }
+}
+```
+To update payments from payu webhook service for success payment event use the following code
+```
+public function webhook(Request $request)
+{
+    if(Payu::getGateway()->verifyReverseHash($request->all(),$request->hash))
+    {
+        PayuPayment::processWebHookSuccess($request->all());
+    }
+    return response('OK',200);
 }
 ```
