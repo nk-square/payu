@@ -4,6 +4,7 @@ namespace Nksquare\Payu;
 
 use Illuminate\Support\ServiceProvider;
 use Nksquare\Payu\Console\Commands\PayuTable;
+use Nksquare\Payu\Console\Commands\AlterPayuTable;
 
 class PayuServiceProvider extends ServiceProvider
 {
@@ -37,7 +38,8 @@ class PayuServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) 
         {
             $this->commands([
-                PayuTable::class
+                PayuTable::class,
+                AlterPayuTable::class
             ]);
         }
     }

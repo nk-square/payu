@@ -62,6 +62,25 @@ class PayuPayment extends Model
 
     /**
      * @param array $payment
+     * @return PayuPayment $payment: instance of updated payupayment corresponding to the webhook data.
+     */
+    public static function processWebHookSuccess(array $payment)
+    {
+         if(array_key_exists("txnid",$payment)){
+            $payuPayment = static::getByTxnid($payment['txnid']);
+            $payuPayment->completePayment($payment);
+            return $payuPayment;
+        }
+        if(array_key_exists("merchantTransactionId",$payment)){
+            $payuPayment = static::getByTxnid($payment['merchantTransactionId']);
+            $payuPayment->updateCompletedPayment($payment);
+            return $payuPayment;
+        }
+        throw new Exception("Unidentified payload");
+    } 
+
+    /**
+     * @param array $payment
      */
     public static function savePayment($payment)
     {
@@ -107,6 +126,44 @@ class PayuPayment extends Model
         $this->issuing_bank = $payment['issuing_bank'] ?? null;
         $this->card_type = $payment['card_type'] ?? null;
         $this->error = $payment['error'] ?? null;
+        $this->error_message = $payment['error_Message'] ?? null;
+        $this->field0 = $payment['field0'] ?? null;
+        $this->field1 = $payment['field1'] ?? null;
+        $this->field2 = $payment['field2'] ?? null;
+        $this->field3 = $payment['field3'] ?? null;
+        $this->field4 = $payment['field4'] ?? null;
+        $this->field5 = $payment['field5'] ?? null;
+        $this->field6 = $payment['field6'] ?? null;
+        $this->field7 = $payment['field7'] ?? null;
+        $this->field8 = $payment['field8'] ?? null;
+        $this->field9 = $payment['field9'] ?? null;
+        $this->me_code = $payment['meCode'] ?? null;
+        $this->save();
+    }
+
+    /**
+     * @param array $payment
+     */
+    public function updateCompletedPayment(array $payment)
+    {
+        $this->mihpayid = $payment['paymentId'];
+        $this->status = $payment['status'];
+        $this->mode = $payment['paymentMode'];
+        $this->productinfo = $payment['productInfo'];
+        $this->additional_charges = $payment['additionalCharges'] ?? ($payment['additional_charges'] ?? null);
+        $this->bank_ref_num = $payment['bankRefNum'] ?? null;
+        $this->error_message = $payment['error_Message'] ?? null;
+        $this->net_amount_debit = ($payment['status'] == 'success')? ($payment['amount']+($payment['additionalCharges'] ?? ($payment['additional_charges']))):'0.00';
+        $this->field0 = $payment['field0'] ?? null;
+        $this->field1 = $payment['field1'] ?? null;
+        $this->field2 = $payment['field2'] ?? null;
+        $this->field3 = $payment['field3'] ?? null;
+        $this->field4 = $payment['field4'] ?? null;
+        $this->field5 = $payment['field5'] ?? null;
+        $this->field6 = $payment['field6'] ?? null;
+        $this->field7 = $payment['field7'] ?? null;
+        $this->field8 = $payment['field8'] ?? null;
+        $this->field9 = $payment['field9'] ?? null;
         $this->save();
     }
 
