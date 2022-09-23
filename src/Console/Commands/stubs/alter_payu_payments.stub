@@ -48,7 +48,7 @@ class AlterPayuPaymentsTable extends Migration
             $table->dropColumn('field8');
             $table->dropColumn('field9');
             $table->dropColumn('error_message');
-            $table->dropColumn('meCode');
+            $table->dropColumn('me_code');
         });
     }
 }
