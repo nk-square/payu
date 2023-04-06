@@ -116,7 +116,7 @@ class PayuPayment extends Model
         $this->status = $payment['status'];
         $this->unmappedstatus = $payment['unmappedstatus'];
         $this->mode = $payment['mode'] ?? null;
-        $this->bankcode = $payment['bankcode'];
+        $this->bankcode = $payment['bankcode'] ?? null;
         $this->productinfo = $payment['productinfo'];
         $this->additional_charges = $payment['additionalCharges'] ?? ($payment['additional_charges'] ?? null);
         $this->net_amount_debit = $payment['net_amount_debit'] ?? 0;
