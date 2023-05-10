@@ -49,7 +49,7 @@ class Gateway
     {
         $this->account = $account;
         $this->verifier = new Verifier($this->account);
-        $this->endpoint = Config::get('payu.testing') ? 'https://sandboxsecure.payu.in/_payment' : 'https://secure.payu.in/_payment';
+        $this->endpoint = Config::get('payu.testing') ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment';
         $this->txnidGenerator = new TxnidGenerator();
     }
 
