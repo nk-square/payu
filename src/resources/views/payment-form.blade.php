@@ -25,6 +25,7 @@
     <div class="container">
         <h1 class="redirect-text">Redirecting to payment gateway....</h1>
         <form method="post" action="{{$endpoint}}" id="payu-form" style="display: none">
+            @csrf
             @foreach($fields as $key => $value)
             <input type="hidden" name="{{$key}}" value="{{$value}}">
             @endforeach

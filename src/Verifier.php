@@ -67,6 +67,10 @@ class Verifier
      */
     function verifyReverseHash($data,$hash)
     {
+        if($this->account->getType()==Account::PAYU_LOCAL)
+        {
+            return true;
+        }
         return $hash == $this->generateReverseHash($data);
     }
 }

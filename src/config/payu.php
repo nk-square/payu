@@ -28,10 +28,10 @@ return [
     | Testing or live mode
     |--------------------------------------------------------------------------
     |
-    | The values can be 'money' for payumoney, 'biz' for payubiz or false for live mode
+    | The values can be 'money' for payumoney, 'biz' for payubiz, 'local' for local or false for live mode
     |
     */
-    'testing' => false,
+    'testing' => env('PAYU_TESTING',false),
 
     /*
     |--------------------------------------------------------------------------

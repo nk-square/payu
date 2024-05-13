@@ -49,7 +49,15 @@ class Gateway
     {
         $this->account = $account;
         $this->verifier = new Verifier($this->account);
-        $this->endpoint = Config::get('payu.testing') ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment';
+        switch ($account->getType()) {
+            case Account::PAYU_MONEY:
+            case Account::PAYU_BIZ:
+                $this->endpoint = Config::get('payu.testing') ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment';
+                break;
+            case Account::PAYU_LOCAL:
+                $this->endpoint = route('payu.local.verify');
+        }
+        
         $this->txnidGenerator = new TxnidGenerator();
     }
 

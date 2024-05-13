@@ -35,6 +35,8 @@ class PayuServiceProvider extends ServiceProvider
             __DIR__.'/config/payu.php' => config_path('payu.php')
         ],'config');
 
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+
         if ($this->app->runningInConsole()) 
         {
             $this->commands([

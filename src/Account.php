@@ -16,6 +16,11 @@ class Account
      */
     const PAYU_MONEY = 'money';
 
+        /**
+     * @var string
+     */
+    const PAYU_LOCAL = 'local';
+
     /**
      * @var string
      */
@@ -44,17 +49,17 @@ class Account
      */
     function __construct($key,$salt,$type,$authHeader=null)
     {
-        if(empty($key))
+        if(empty($key) && $type!=self::PAYU_LOCAL)
         {
             throw new InvalidArgumentException('Invalid key');
         }
 
-        if(empty($salt))
+        if(empty($salt) && $type!=self::PAYU_LOCAL)
         {
             throw new InvalidArgumentException('Invalid salt');
         }
 
-        if(!in_array($type,[self::PAYU_MONEY,self::PAYU_BIZ]))
+        if(!in_array($type,[self::PAYU_MONEY,self::PAYU_BIZ,self::PAYU_LOCAL]))
         {
             throw new InvalidArgumentException('Invalid account type');
         }

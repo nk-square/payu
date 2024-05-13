@@ -75,6 +75,12 @@ class Payu
                     'type' => Account::PAYU_MONEY,
                     'auth_header' => $config['auth_header'],
                 ]);
+            case 'local':
+                return $this->createAccountFromCredentails([
+                    'key' => 'LOCAL',
+                    'salt' => null,
+                    'type' => Account::PAYU_LOCAL,
+                ]);
         }
 
         $config = Config::get("payu.accounts.$account");
