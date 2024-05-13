@@ -41,6 +41,8 @@ class Payu
                 return new PayuMoneyClient($account);
             case Account::PAYU_BIZ:
                 return new PayuBizClient($account);
+            case Account::PAYU_LOCAL:
+                return new LocalClient($account);
         }
     }
     
