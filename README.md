@@ -24,7 +24,6 @@ php artisan vendor:publish --provider="Nksquare\Payu\PayuServiceProvider" --tag=
 Create migrations and model factory if you are going to store the payment records in the database
 ```
 php artisan payu:table
-php artisan payu:update
 ```
 Run migrations
 ```
@@ -36,7 +35,7 @@ use Nksquare\Payu\PayuPayment;
 .....
 factory(PayuPayment::class)->make();
 ```
-Set up your key, salt, account type(money or biz) and auth header(required for money)
+Set up your key, salt, account type(money/biz/local) and auth header(required for money)
 ```
 PAYU_KEY=your_key
 PAYU_SALT=your_salt

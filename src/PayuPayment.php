@@ -2,10 +2,13 @@
 
 namespace Nksquare\Payu;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Exception;
 
 class PayuPayment extends Model
 {
+    use HasFactory;
     /**
      * @var string
      */

@@ -61,7 +61,32 @@ class Payu
      */
     public function resolve($account)
     {
-        switch (Config::get('payu.testing')) {
+        $config = Config::get("payu.accounts.$account");
+
+        if($config==null)
+        {
+            throw new InvalidArgumentException("Payu account $account is not defined");
+        }
+        
+        if($config['test'] ?? false)
+        {
+            return $this->getSandboxAccount($config);
+        }
+        return $this->createAccountFromCredentails($config);
+    } 
+
+    /**
+     * @param string $account
+     */
+    public function shouldUse($account)
+    {
+        Config::set('payu.default',$account);
+    }
+
+    public function getSandboxAccount($config)
+    {
+        switch ($config['type']) 
+        {
             case 'biz':
                 $config = Config::get('payu.sandbox.biz');
                 return $this->createAccountFromCredentails([
@@ -84,21 +109,5 @@ class Payu
                     'type' => Account::PAYU_LOCAL,
                 ]);
         }
-
-        $config = Config::get("payu.accounts.$account");
-
-        if($config==null)
-        {
-            throw new InvalidArgumentException("Payu account $account is not defined");
-        }
-        return $this->createAccountFromCredentails($config);
-    } 
-
-    /**
-     * @param string $account
-     */
-    public function shouldUse($account)
-    {
-        Config::set('payu.default',$account);
     }
 }

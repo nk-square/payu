@@ -47,7 +47,8 @@ return [
             'key' => env('PAYU_KEY'),
             'salt' => env('PAYU_SALT'),
             'type' => env('PAYU_TYPE'),
-            'auth_header' => env('PAYU_AUTH_HEADER')
+            'auth_header' => env('PAYU_AUTH_HEADER'),
+            'test' => env('PAYU_TESTING',false),
         ],
         // 'biz' => [
         //     'key' => env('PAYU_KEY'),
@@ -72,7 +73,7 @@ return [
         ],
         'biz' => [
             'key' => 'gtKFFx',
-            'salt' => 'eCwWELxi',
+            'salt' => '4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW',
         ]
     ],
 ];

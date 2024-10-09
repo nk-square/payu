@@ -49,6 +49,18 @@ class CreatePayuPaymentsTable extends Migration
             $table->string('udf8')->nullable();
             $table->string('udf9')->nullable();
             $table->string('udf10')->nullable();
+            $table->string('field0')->nullable();
+            $table->string('field1')->nullable();
+            $table->string('field2')->nullable();
+            $table->string('field3')->nullable();
+            $table->string('field4')->nullable();
+            $table->string('field5')->nullable();
+            $table->string('field6')->nullable();
+            $table->string('field7')->nullable();
+            $table->string('field8')->nullable();
+            $table->string('field9')->nullable();
+            $table->string('error_message')->nullable();
+            $table->string('me_code')->nullable();
             $table->timestamps();
         });
     }
