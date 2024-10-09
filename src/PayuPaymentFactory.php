@@ -2,9 +2,8 @@
 
 namespace Nksquare\Payu;
 
-use Nksquare\PayuPayment
-use Carbon\Carbon;
-use Faker\Generator as Faker;
+use Nksquare\Payu\PayuPayment;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PayuPaymentFactory extends Factory
 {
@@ -13,7 +12,7 @@ class PayuPaymentFactory extends Factory
      *
      * @var string
      */
-    protected $model = PaymentPayu::class;
+    protected $model = PayuPayment::class;
 
     /**
      * Define the model's default state.

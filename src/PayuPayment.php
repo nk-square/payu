@@ -34,6 +34,11 @@ class PayuPayment extends Model
      */
     public $incrementing = false;
 
+    protected static function newFactory()
+    {
+        return PayuPaymentFactory::new();
+    }
+
     /**
      * @return bool
      */
