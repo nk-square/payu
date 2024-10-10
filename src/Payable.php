@@ -17,6 +17,6 @@ trait Payable {
      */
     public function savePayment(PayuPayment $payment)
     {
-        $this->payuPayment()->save($payment);
+        $this->payuPayments()->save($payment);
     }
 }
