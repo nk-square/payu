@@ -16,7 +16,7 @@ class LocalController extends Controller
 			'hash' => 'required',
 			'firstname' => 'required',
 			'email' => 'required|email',
-			'phone' => 'required|digits:10',
+			'phone' => 'required',
 			'productinfo' => 'required'
 		])->errors();
 		
