@@ -2,6 +2,7 @@
 
 namespace Nksquare\Payu;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 
 class PayuMoneyClient
@@ -17,12 +18,21 @@ class PayuMoneyClient
     protected $endpoint;
 
     /**
+     * @var GuzzleHttp\Client
+     */ 
+    protected $client;
+
+    /**
      * @param Nksquare\Payu\Account $account
      */ 
     public function __construct($account)
     {
         $this->account = $account;
         $this->endpoint = Config::get('payu.testing') ? 'https://test.payumoney.com' : 'https://www.payumoney.com';
+        $this->client = new Client([
+            'base_uri' => $this->endpoint,
+            'timeout'  => 2.0,
+        ]);
     }
 
     /**
@@ -32,20 +42,15 @@ class PayuMoneyClient
      */ 
     public function service($service,$params)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_HTTPHEADER,[
-            'authorization: '.$this->account->getAuthHeader(),
-            'cache-control: no-cache'
-        ]);
-        curl_setopt($ch,CURLOPT_URL,$this->endpoint.'/'.ltrim($service,'/'));
-        curl_setopt($ch,CURLOPT_POST,1);
-        $postFields = array_merge([
-            'merchantKey' => $this->account->getKey(),
-        ],$params);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($postFields));
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close ($ch);
+        $options = [
+            'headers' => [
+                'authorization' => $this->account->getAuthHeader(),
+                'cache-control' => 'no-cache',
+            ],
+            'form_params' => $params + ['merchantKey' => $this->account->getKey()]
+        ];
+        $response = $this->client->post($service,$options);
+        $response = (string)$response->getBody();
         return new PayuMoneyResponse($response);
     }
 

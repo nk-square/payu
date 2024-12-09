@@ -2,6 +2,7 @@
 
 namespace Nksquare\Payu;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 
 class PayuBizClient
@@ -17,14 +18,24 @@ class PayuBizClient
     protected $endpoint;
 
     /**
+     * @var GuzzleHttp\Client
+     */ 
+    protected $client;
+
+    /**
      * @param Nksquare\Payu\Account $account
      */
     public function __construct($account)
     {
         $this->account = $account;
         $this->endpoint = Config::get('payu.testing') ? 'https://test.payu.in/merchant/postservice.php' : 'https://info.payu.in/merchant/postservice.php';
+        $this->client = new Client([
+            'base_uri' => $this->endpoint,
+            'timeout'  => 2.0,
+            'debug' => true
+        ]);
+        
     }
-
     /**
      * @param string $command
      * @param array $params
@@ -32,20 +43,21 @@ class PayuBizClient
      */
     public function service($command,array $params)
     {
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL,$this->endpoint);
-        curl_setopt($ch,CURLOPT_POST,1);
         $hash = hash('sha512',$this->account->getKey().'|'.$command.'|'.$params['var1'].'|'.$this->account->getSalt());
-        $params = array_merge([
-            'form' => 2,
-            'key' => $this->account->getKey(),
-            'command' => $command,
-            'hash' => $hash,
-        ],$params);
-        curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($params));
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close ($ch);
+        $options = [
+            'headers' => [
+                'authorization' => $this->account->getAuthHeader(),
+                'cache-control' => 'no-cache',
+            ],
+            'form_params' => $params + [
+                'form' => 2,
+                'key' => $this->account->getKey(),
+                'command' => $command,
+                'hash' => $hash,
+            ]
+        ];
+        $response = $this->client->post('',$options);
+        $response = (string)$response->getBody();
         return new PayuBizResponse($response);
     }
 

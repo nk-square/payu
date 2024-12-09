@@ -16,7 +16,8 @@
         "illuminate/filesystem": "^9.0|^10.0|^11.0",
         "illuminate/session": "^9.0|^10.0|^11.0",
         "illuminate/support": "^9.0|^10.0|^11.0",
-        "illuminate/view": "^9.0|^10.0|^11.0"
+        "illuminate/view": "^9.0|^10.0|^11.0",
+        "guzzlehttp/guzzle": "^7.9"
     },
     "autoload": {
         "psr-4": {
